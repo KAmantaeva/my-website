@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>BOOKNEST - Бронирование отелей, ресторанов и СПА</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    .hero-section {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/hero.png');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 100px 0;
+      margin-bottom: 40px;
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #0d6efd;
+    }
+    
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .testimonial {
+      background-color: #f8f9fa;
+      padding: 60px 0;
+      margin: 40px 0;
+    }
+    
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 40px 0 20px;
+    }
+    
+    .footer a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">BOOKNEST</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" href="index.html">Главный</a></li>
+            <li class="nav-item"><a class="nav-link" href="hotels.html">Отели</a></li>
+            <li class="nav-item"><a class="nav-link" href="restaurants.html">Рестораны</a></li>
+            <li class="nav-item"><a class="nav-link" href="spa.html">СПА услуги</a></li>
+            <li class="nav-item" id="loginMenuItem">
+              <a class="nav-link" href="login.html">Войти</a>
+            </li>
+            <li class="nav-item dropdown d-none" id="userMenuItem">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                <span id="userDisplayName">Имя пользователя</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="profile.html">Профиль</a></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Выйти</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-4">Добро пожаловать в BOOKNEST</h1>
+      <p class="lead mb-5">Бронируйте лучшие отели, рестораны и СПА-услуги в Казахстане</p>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <form id="searchForm" class="row g-3">
+                <div class="col-md-5">
+                  <select class="form-select" id="searchType">
+                    <option value="hotels">Отели</option>
+                    <option value="restaurants">Рестораны</option>
+                    <option value="spa">СПА услуги</option>
+                  </select>
+                </div>
+                <div class="col-md-5">
+                  <input type="text" class="form-control" id="searchLocation" placeholder="Город, название">
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" class="btn btn-primary w-100">Поиск</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="container mb-5">
+    <h2 class="text-center mb-4">Почему выбирают нас</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="text-center">
+          <i class="bi bi-check-circle feature-icon"></i>
+          <h4>Проверенные заведения</h4>
+          <p>Мы тщательно отбираем партнеров, чтобы гарантировать высокое качество обслуживания.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center">
+          <i class="bi bi-lightning feature-icon"></i>
+          <h4>Быстрое бронирование</h4>
+          <p>Забронируйте отель, ресторан или СПА всего за несколько кликов без лишних звонков.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center">
+          <i class="bi bi-star feature-icon"></i>
+          <h4>Честные отзывы</h4>
+          <p>Реальные отзывы от клиентов помогут вам сделать правильный выбор.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Hotels Section -->
+  <section class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Популярные отели</h2>
+      <a href="hotels.html" class="btn btn-outline-primary">Все отели</a>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/hotel1.png" class="card-img-top" alt="Отель">
+          <div class="card-body">
+            <h5 class="card-title">Отель Золотая Орхидея</h5>
+            <p class="card-text text-muted">Алматы, ул. Фурманова, 164</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+              <span class="ms-1">4.5</span>
+            </div>
+            <p class="card-text fw-bold">От 25000 ₸ / ночь</p>
+            <a href="hotel-detail.html?id=2" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/hotel2.png" class="card-img-top" alt="Отель">
+          <div class="card-body">
+            <h5 class="card-title">Beluga Hotel</h5>
+            <p class="card-text text-muted">Алматы, Медеу, ул. Горная, 10</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+              <span class="ms-1">4.5</span>
+            </div>
+            <p class="card-text fw-bold">От 30000 ₸ / ночь</p>
+            <a href="hotel-detail.html?id=1" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/hotel3.png" class="card-img-top" alt="Отель">
+          <div class="card-body">
+            <h5 class="card-title">Green Palace Hotel</h5>
+            <p class="card-text text-muted">Нур-Султан, пр. Республики, 33</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <span class="ms-1">4.6</span>
+            </div>
+            <p class="card-text fw-bold">От 20000 ₸ / ночь</p>
+            <a href="hotel-detail.html?id=3" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Restaurants Section -->
+  <section class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Популярные рестораны</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/restaurant1.png" class="card-img-top" alt="Ресторан">
+          <div class="card-body">
+            <h5 class="card-title">La Rivière</h5>
+            <p class="card-text text-muted">Нур-Султан, пр. Кабанбай батыра 53</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+              <span class="ms-1">4.5</span>
+            </div>
+            <p class="card-text">Европейская кухня</p>
+            <a href="restaurant-detail.html?id=rest2" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/restaurant2.png" class="card-img-top" alt="Ресторан">
+          <div class="card-body">
+            <h5 class="card-title">Алтын Казан</h5>
+            <p class="card-text text-muted">Алматы, ул. Абая 42</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star text-warning"></i>
+              <span class="ms-1">4.0</span>
+            </div>
+            <p class="card-text"> Казахская кухня</p>
+            <a href="restaurant-detail.html?id=rest1" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/restaurant3.png" class="card-img-top" alt="Ресторан">
+          <div class="card-body">
+            <h5 class="card-title">Восточный Сад</h5>
+            <p class="card-text text-muted">Алматы, ул. Достык 85</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <span class="ms-1">4.8</span>
+            </div>
+            <p class="card-text">Азиатская кухня</p>
+            <a href="restaurant-detail.html?id=rest3" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular SPA Section -->
+  <section class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Популярные СПА-центры</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/spa1.png" class="card-img-top" alt="СПА">
+          <div class="card-body">
+            <h5 class="card-title">Harmony Spa & Wellness</h5>
+            <p class="card-text text-muted">ул. Достык 12, Алматы</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+              <span class="ms-1">4.5</span>
+            </div>
+            <p class="card-text">Массажи, уходовые процедуры</p>
+            <a href="spa-detail.html?id=spa1" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/spa2.png" class="card-img-top" alt="СПА">
+          <div class="card-body">
+            <h5 class="card-title">Luxe Medical Spa</h5>
+            <p class="card-text text-muted">пр. Абая 44, Алматы</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+              <span class="ms-1">4.5</span>
+            </div>
+            <p class="card-text">Mедицинский спа-центр</p>
+            <a href="spa-detail.html?id=spa2" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="images/spa3.png" class="card-img-top" alt="СПА">
+          <div class="card-body">
+            <h5 class="card-title">Zen Day Spa</h5>
+            <p class="card-text text-muted">ул. Жибек Жолы 50, Алматы</p>
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+              <span class="ms-1">4.5</span>
+            </div>
+            <p class="card-text">Массажи, сауна, бассейн</p>
+            <a href="spa-detail.html?id=spa3" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- CTA Section -->
+  <section class="container text-center mb-5">
+    <div class="p-5 bg-primary text-white rounded">
+      <h2 class="mb-3">Готовы забронировать?</h2>
+      <p class="lead mb-4">Присоединяйтесь к тысячам довольных клиентов и сделайте свой отдых незабываемым!</p>
+      <a href="login.html" class="btn btn-light btn-lg">Начать сейчас</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h5>О нас</h5>
+          <p>BOOKNEST - ведущая платформа для бронирования отелей, ресторанов и СПА-услуг в Казахстане. Мы стремимся сделать ваш отдых комфортным и незабываемым.</p>
+        </div>
+        <div class="col-md-2 mb-4">
+          <h5>Ссылки</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="hotels.html">Отели</a></li>
+            <li><a href="#">Рестораны</a></li>
+            <li><a href="#">СПА услуги</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Контакты</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-geo-alt me-2"></i> Алматы, ул. Абая, 52</li>
+            <li><i class="bi bi-telephone me-2"></i> +7 (727) 123-45-67</li>
+            <li><i class="bi bi-envelope me-2"></i> info@booknest.kz</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Подписка</h5>
+          <p>Подпишитесь на нашу рассылку, чтобы получать новости и специальные предложения.</p>
+          <form>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="Email">
+              <button class="btn btn-primary" type="submit">Подписаться</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <p>&copy; 2023 BOOKNEST. Все права защищены.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item"><a href="#"><i class="bi bi-facebook fs-5"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="bi bi-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="bi bi-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="bi bi-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and our custom scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
