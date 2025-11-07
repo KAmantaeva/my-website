@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>СПА детали - BOOKNEST</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+      .feature-icon {
+        color: #0d6efd;
+        margin-right: 8px;
+      }
+      .advantage-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .advantage-item:last-child {
+        border-bottom: none;
+      }
+      .advantage-check {
+        color: #198754;
+        margin-right: 10px;
+      }
+      /* Additional styles for SPA cards */
+      .spa-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+      }
+      .spa-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+      .spa-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+      }
+      .spa-card .card-footer {
+        background-color: transparent;
+        border-top: none;
+      }
+    </style>
+</head>
+<body style="background-color: #f8f9fa;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">BOOKNEST</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item" id="homeMenuItem"><a class="nav-link" href="index.html">Главный</a></li>
+            <li class="nav-item"><a class="nav-link" href="hotels.html">Отели</a></li>
+            <li class="nav-item"><a class="nav-link" href="restaurants.html">Рестораны</a></li>
+            <li class="nav-item"><a class="nav-link active" href="spa.html">СПА услуги</a></li>
+            <li class="nav-item" id="loginMenuItem">
+              <a class="nav-link" href="login.html">Войти</a>
+            </li>
+            <li class="nav-item dropdown d-none" id="userMenuItem">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                <span id="userDisplayName">Имя пользователя</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="profile.html">Профиль</a></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Выйти</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="mb-3">
+      <a href="spa.html" class="text-decoration-none">
+        <i class="bi bi-arrow-left"></i> Назад к списку СПА
+      </a>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h2 id="spaName" class="card-title mb-3">Загрузка...</h2>
+            <div class="d-flex align-items-center mb-3">
+              <div id="spaRating" class="me-2">
+                <!-- Рейтинг будет загружен динамически -->
+              </div>
+              <span id="spaReviewCount" class="text-muted"></span>
+            </div>
+            <p id="spaLocation" class="mb-3">
+              <i class="bi bi-geo-alt"></i> <span>Загрузка...</span>
+            </p>
+            <div id="spaDescription" class="mb-4">
+              <!-- Описание будет загружено динамически -->
+            </div>
+            
+            <h4 class="mb-3">Услуги и процедуры</h4>
+            <div id="spaServices" class="mb-4">
+              <!-- Услуги будут загружены динамически -->
+            </div>
+            
+            <h4 class="mb-3">Фотогалерея</h4>
+            <div id="spaGallery" class="row g-2 mb-4">
+              <!-- Фотографии будут загружены динамически -->
+            </div>
+            
+            <h4 class="mb-3">Отзывы</h4>
+            <div id="spaReviews">
+              <!-- Отзывы будут загружены динамически -->
+            </div>
+            
+            <!-- Форма для добавления отзыва -->
+            <div class="card mt-4">
+              <div class="card-header">
+                <h5 class="mb-0">Оставить отзыв</h5>
+              </div>
+              <div class="card-body">
+                <form id="reviewForm">
+                  <div class="mb-3">
+                    <label for="reviewRating" class="form-label">Оценка</label>
+                    <select class="form-select" id="reviewRating" required>
+                      <option value="5">5 - Отлично</option>
+                      <option value="4">4 - Хорошо</option>
+                      <option value="3">3 - Средне</option>
+                      <option value="2">2 - Плохо</option>
+                      <option value="1">1 - Ужасно</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="reviewText" class="form-label">Ваш отзыв</label>
+                    <textarea class="form-control" id="reviewText" rows="3" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div id="spaCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <!-- Carousel items will be loaded dynamically -->
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#spaCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#spaCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+          </button>
+        </div>
+        
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">Забронировать</h5>
+          </div>
+          <div class="card-body">
+            <form id="bookingForm">
+              <div class="mb-3">
+                <label for="bookingService" class="form-label">Выберите услугу</label>
+                <select class="form-select" id="bookingService" required>
+                  <!-- Услуги будут загружены динамически -->
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="bookingDate" class="form-label">Дата посещения</label>
+                <input type="date" class="form-control" id="bookingDate" required>
+              </div>
+              <div class="mb-3">
+                <label for="bookingTime" class="form-label">Время</label>
+                <input type="time" class="form-control" id="bookingTime" required>
+              </div>
+              <div class="mb-3">
+                <label for="bookingGuests" class="form-label">Количество человек</label>
+                <select class="form-select" id="bookingGuests" required>
+                  <option value="1" selected>1 человек</option>
+                  <option value="2">2 человека</option>
+                  <option value="3">3 человека</option>
+                  <option value="4">4 человека</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <p class="mb-1">Стоимость: <span id="bookingPrice"></span> ₸</p>
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-100" id="bookSpaBtn">Забронировать</button>
+            </form>
+            
+            <!-- Кнопка избранного -->
+            <button class="btn btn-outline-danger w-100 mt-2" id="favoriteButton">
+              <i class="bi bi-heart me-2"></i>Добавить в избранное
+            </button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Информация</h5>
+            <div id="spaInfo">
+              <!-- Информация о СПА будет загружена динамически -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно для входа -->
+  <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Требуется авторизация</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Для бронирования СПА услуг и добавления отзывов необходимо войти в систему.</p>
+          <p>Пожалуйста, авторизуйтесь, чтобы получить доступ ко всем функциям сайта.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <a href="login.html" class="btn btn-primary">Войти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно для просмотра фото -->
+  <div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Фотогалерея</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img id="modalPhoto" src="" class="img-fluid" alt="Фото СПА">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно успешного бронирования -->
+  <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Бронирование успешно!</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <p>Ваше бронирование успешно оформлено!</p>
+          <p>Детали бронирования отправлены на вашу электронную почту и доступны в личном кабинете.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <a href="profile.html" class="btn btn-primary">Перейти в личный кабинет</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+      // Дополнительный скрипт для обработки новых элементов
+      document.addEventListener('DOMContentLoaded', function() {
+        // Получаем ID СПА из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const spaId = urlParams.get('id');
+        
+        if (!spaId) {
+          // Если ID не указан, перенаправляем на страницу со списком СПА
+          window.location.href = 'spa.html';
+          return;
+        }
+        
+        // Получаем данные СПА из localStorage
+        const spas = JSON.parse(localStorage.getItem('spas')) || [];
+        const spa = spas.find(s => s.id === spaId);
+        
+        if (!spa) {
+          // Если СПА с таким ID не найден, показываем сообщение об ошибке
+          document.getElementById('spaName').textContent = 'СПА не найден';
+          return;
+        }
+        
+        // Заполняем данные на странице
+        document.getElementById('spaName').textContent = spa.name;
+        document.title = `${spa.name} - BOOKNEST`;
+        
+        // Заполняем местоположение
+        document.getElementById('spaLocation').innerHTML = `
+          <i class="bi bi-geo-alt"></i> <span>${spa.location}</span>
+        `;
+        
+        // Заполняем описание
+        document.getElementById('spaDescription').innerHTML = `
+          <p>${spa.description}</p>
+        `;
+        
+        // Заполняем рейтинг
+        const ratingContainer = document.getElementById('spaRating');
+        let ratingHtml = '';
+        for (let i = 0; i < 5; i++) {
+          if (i < Math.floor(spa.rating)) {
+            ratingHtml += '<i class="bi bi-star-fill text-warning"></i>';
+          } else if (i < spa.rating) {
+            ratingHtml += '<i class="bi bi-star-half text-warning"></i>';
+          } else {
+            ratingHtml += '<i class="bi bi-star text-warning"></i>';
+          }
+        }
+        ratingContainer.innerHTML = ratingHtml + ` <span class="badge bg-warning text-dark">${spa.rating}</span>`;
+        document.getElementById('spaReviewCount').textContent = `(${spa.reviewCount || 0} отзывов)`;
+        
+        // Заполняем карусель с фотографиями
+        const carouselInner = document.querySelector('#spaCarousel .carousel-inner');
+        spa.images.forEach((image, index) => {
+          const item = document.createElement('div');
+          item.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+          item.innerHTML = `
+            <img src="${image}" class="d-block w-100" alt="${spa.name}">
+          `;
+          carouselInner.appendChild(item);
+        });
+        
+        // Заполняем галерею
+        const galleryContainer = document.getElementById('spaGallery');
+        spa.images.forEach((image, index) => {
+          const col = document.createElement('div');
+          col.className = 'col-6 col-md-4 col-lg-3';
+          col.innerHTML = `
+            <a href="#" class="gallery-item" data-src="${image}">
+              <img src="${image}" class="img-fluid rounded" alt="Фото ${index + 1}">
+            </a>
+          `;
+          galleryContainer.appendChild(col);
+        });
+        
+        // Добавляем обработчики для фотогалереи
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const src = this.getAttribute('data-src');
+            document.getElementById('modalPhoto').src = src;
+            const photoModal = new bootstrap.Modal(document.getElementById('photoModal'));
+            photoModal.show();
+          });
+        });
+        
+        // Заполняем услуги
+        const servicesContainer = document.getElementById('spaServices');
+        let servicesHtml = '<div class="table-responsive"><table class="table table-hover">';
+        servicesHtml += '<thead><tr><th>Услуга</th><th>Длительность</th><th>Цена</th></tr></thead><tbody>';
+        
+        spa.services.forEach(service => {
+          servicesHtml += `
+            <tr>
+              <td>${service.name}</td>
+              <td>${service.duration} мин</td>
+              <td>${service.price} ₸</td>
+            </tr>
+          `;
+        });
+        
+        servicesHtml += '</tbody></table></div>';
+        servicesContainer.innerHTML = servicesHtml;
+        
+        // Заполняем выпадающий список услуг для бронирования
+        const bookingService = document.getElementById('bookingService');
+        bookingService.innerHTML = '<option value="">Выберите услугу</option>';
+        
+        spa.services.forEach(service => {
+          const option = document.createElement('option');
+          option.value = service.name;
+          option.setAttribute('data-price', service.price);
+          option.textContent = `${service.name} (${service.duration} мин) - ${service.price} ₸`;
+          bookingService.appendChild(option);
+        });
+        
+        // Обработчик изменения услуги для обновления цены
+        bookingService.addEventListener('change', function() {
+          const selectedOption = this.options[this.selectedIndex];
+          const price = selectedOption.getAttribute('data-price') || 0;
+          document.getElementById('bookingPrice').textContent = price;
+        });
+        
+        // Заполняем информацию о СПА
+        const infoContainer = document.getElementById('spaInfo');
+        infoContainer.innerHTML = `
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Тип:</span>
+              <span class="text-primary">${spa.type === 'wellness' ? 'Велнес СПА' : 
+                                          spa.type === 'medical' ? 'Медицинский СПА' : 
+                                          spa.type === 'day' ? 'Дневной СПА' : 'Курортный СПА'}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Часы работы:</span>
+              <span>${spa.workingHours}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Телефон:</span>
+              <span>${spa.phone}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Веб-сайт:</span>
+              <a href="https://${spa.website}" target="_blank">${spa.website}</a>
+            </li>
+          </ul>
+        `;
+        
+        // Отображаем отзывы
+        const reviewsContainer = document.getElementById('spaReviews');
+        if (spa.reviews && spa.reviews.length > 0) {
+          let reviewsHtml = '';
+          spa.reviews.forEach(review => {
+            // Формируем рейтинг в виде звезд
+            let starsHtml = '';
+            for (let i = 0; i < 5; i++) {
+              starsHtml += `<i class="bi bi-star${i < review.rating ? '-fill' : ''} text-warning"></i>`;
+            }
+            
+            reviewsHtml += `
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-2">
+                    <div>
+                      <h6 class="mb-0">${review.userName}</h6>
+                      <div>${starsHtml}</div>
+                    </div>
+                    <small class="text-muted">${review.date}</small>
+                  </div>
+                  <p class="card-text">${review.text}</p>
+                </div>
+              </div>
+            `;
+          });
+          reviewsContainer.innerHTML = reviewsHtml;
+        } else {
+          reviewsContainer.innerHTML = '<div class="alert alert-info">Пока нет отзывов. Будьте первым, кто оставит отзыв!</div>';
+        }
+        
+        // Проверяем, добавлен ли СПА в избранное
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.favorites) {
+          const isFavorite = currentUser.favorites.some(f => f.id === spaId && f.type === 'spa');
+          const favoriteButton = document.getElementById('favoriteButton');
+          
+          if (isFavorite) {
+            favoriteButton.classList.add('btn-danger');
+            favoriteButton.classList.remove('btn-outline-danger');
+            favoriteButton.innerHTML = '<i class="bi bi-heart-fill me-2"></i>Удалить из избранного';
+          }
+        }
+        
+        // Добавляем обработчик для кнопки избранного
+        document.getElementById('favoriteButton').addEventListener('click', function() {
+          toggleFavorite(spaId, 'spa', this);
+        });
+        
+        // Добавляем обработчик для формы бронирования
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          bookSpa(spaId);
+        });
+        
+        // Добавляем обработчик для формы отзыва
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          addReview(spaId);
+        });
+        
+        // Отображаем удобства СПА
+        displaySpaFeatures(spa.features);
+        
+        // Отображаем преимущества СПА
+        displaySpaAdvantages(spa);
+        
+        // Отображаем контактную информацию
+        displaySpaContacts(spa);
+      });
+      
+      // Функция для отображения удобств СПА
+      function displaySpaFeatures(features) {
+        const featuresContainer = document.getElementById('spaFeatures');
+        if (!featuresContainer) return;
+        
+        let html = '';
+        
+        // Создаем иконки для каждой функции
+        const featureIcons = {
+          'Массаж': 'bi-hand-thumbs-up',
+          'Сауна': 'bi-thermometer-high',
+          'Уход за лицом': 'bi-emoji-smile',
+          'Уход за телом': 'bi-heart',
+          'Бассейн': 'bi-water',
+          'Хаммам': 'bi-droplet-half',
+          'Джакузи': 'bi-tsunami',
+          'Парная': 'bi-cloud-haze'
+        };
+        
+        features.forEach(feature => {
+          const icon = featureIcons[feature] || 'bi-check-circle';
+          html += `
+            <div class="col-6 col-md-4 mb-3">
+              <div class="d-flex align-items-center">
+                <i class="bi ${icon} feature-icon"></i>
+                <span>${feature}</span>
+              </div>
+            </div>
+          `;
+        });
+        
+        featuresContainer.innerHTML = html;
+      }
+      
+      // Функция для отображения преимуществ СПА
+      function displaySpaAdvantages(spa) {
+        const advantagesContainer = document.getElementById('spaAdvantages');
+        if (!advantagesContainer) return;
+        
+        // Создаем список преимуществ на основе типа СПА
+        const advantages = [];
+        
+        if (spa.type === 'wellness') {
+          advantages.push('Профессиональные мастера');
+          advantages.push('Натуральные продукты');
+          advantages.push('Расслабляющая атмосфера');
+        } else if (spa.type === 'medical') {
+          advantages.push('Медицинский подход');
+          advantages.push('Лицензированные специалисты');
+          advantages.push('Лечебные процедуры');
+        } else if (spa.type === 'day') {
+          advantages.push('Быстрое обслуживание');
+          advantages.push('Удобное расположение');
+          advantages.push('Доступные цены');
+        } else if (spa.type === 'resort') {
+          advantages.push('Премиум обслуживание');
+          advantages.push('Панорамные виды');
+          advantages.push('Комплексные программы');
+        }
+        
+        // Добавляем особенности из данных СПА
+        if (spa.features.includes('Массаж')) {
+          advantages.push('Различные виды массажа');
+        }
+        if (spa.features.includes('Сауна')) {
+          advantages.push('Современное оборудование');
+        }
+        
+        let html = '';
+        advantages.forEach(advantage => {
+          html += `
+            <div class="advantage-item px-3 py-2">
+              <i class="bi bi-check-circle-fill advantage-check"></i>
+              ${advantage}
+            </div>
+          `;
+        });
+        
+        advantagesContainer.innerHTML = html;
+      }
+      
+      // Функция для отображения контактной информации
+      function displaySpaContacts(spa) {
+        const contactsContainer = document.getElementById('spaContacts');
+        if (!contactsContainer) return;
+        
+        let html = `
+          <li class="mb-2"><i class="bi bi-telephone me-2"></i>${spa.phone}</li>
+          <li class="mb-2"><i class="bi bi-globe me-2"></i><a href="https://${spa.website}" target="_blank">${spa.website}</a></li>
+          <li class="mb-2"><i class="bi bi-clock me-2"></i>${spa.workingHours}</li>
+        `;
+        
+        contactsContainer.innerHTML = html;
+      }
+      
+      // Функция для добавления/удаления из избранного
+      function toggleFavorite(id, type, button) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!currentUser) {
+          // Показываем модальное окно для входа
+          const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+          loginModal.show();
+          return;
+        }
+        
+        // Получаем данные пользователя из массива пользователей
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        
+        if (userIndex === -1) {
+          alert('Ошибка при обновлении избранного');
+          return;
+        }
+        
+        // Инициализируем массив избранного, если его нет
+        if (!users[userIndex].favorites) {
+          users[userIndex].favorites = [];
+        }
+        
+        // Проверяем, есть ли уже этот СПА в избранном
+        const favoriteIndex = users[userIndex].favorites.findIndex(f => f.id === id && f.type === type);
+        
+        // Получаем данные СПА
+        const spas = JSON.parse(localStorage.getItem('spas')) || [];
+        const spa = spas.find(s => s.id === id);
+        
+        if (!spa) {
+          alert('Ошибка при обновлении избранного: СПА не найден');
+          return;
+        }
+        
+        if (favoriteIndex === -1) {
+          // Добавляем в избранное с полной информацией
+          users[userIndex].favorites.push({
+            id: id,
+            type: type,
+            name: spa.name,
+            image: spa.images[0],
+            location: spa.location,
+            price: spa.services[0].price,
+            rating: spa.rating,
+            addedAt: new Date().toISOString()
+          });
+          
+          // Обновляем кнопку
+          button.classList.remove('btn-outline-danger');
+          button.classList.add('btn-danger');
+          button.innerHTML = '<i class="bi bi-heart-fill me-2"></i>Удалить из избранного';
+          
+          // Показываем уведомление
+          showNotification('Добавлено в избранное', 'success');
+        } else {
+          // Удаляем из избранного
+          users[userIndex].favorites.splice(favoriteIndex, 1);
+          
+          // Обновляем кнопку
+          button.classList.remove('btn-danger');
+          button.classList.add('btn-outline-danger');
+          button.innerHTML = '<i class="bi bi-heart me-2"></i>Добавить в избранное';
+          
+          // Показываем уведомление
+          showNotification('Удалено из избранного', 'danger');
+        }
+        
+        // Обновляем данные пользователя в localStorage
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('currentUser', JSON.stringify(users[userIndex]));
+      }
+      
+      // Функция для бронирования СПА
+      function bookSpa(spaId) {
+        // Проверяем, авторизован ли пользователь
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+          // Показываем модальное окно для входа
+          const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+          loginModal.show();
+          return;
+        }
+        
+        // Получаем данные из формы
+        const serviceName = document.getElementById('bookingService').value;
+        const servicePrice = document.getElementById('bookingService').options[document.getElementById('bookingService').selectedIndex].getAttribute('data-price');
+        const date = document.getElementById('bookingDate').value;
+        const time = document.getElementById('bookingTime').value;
+        const guests = document.getElementById('bookingGuests').value;
+        
+        // Проверяем заполнение обязательных полей
+        if (!serviceName || !date || !time || !guests) {
+          alert('Пожалуйста, заполните все обязательные поля');
+          return;
+        }
+        
+        // Получаем данные СПА
+        const spas = JSON.parse(localStorage.getItem('spas')) || [];
+        const spa = spas.find(s => s.id === spaId);
+        
+        if (!spa) {
+          alert('Ошибка: СПА не найден');
+          return;
+        }
+        
+        // Создаем объект бронирования
+        const booking = {
+          id: Date.now().toString(),
+          userId: currentUser.id,
+          spaId: spaId,
+          spaName: spa.name,
+          spaImage: spa.images[0],
+          service: serviceName,
+          date: date,
+          time: time,
+          guests: parseInt(guests),
+          price: parseInt(servicePrice),
+          status: 'confirmed',
+          type: 'spa',
+          createdAt: new Date().toISOString()
+        };
+        
+        // Получаем существующие бронирования
+        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        
+        // Добавляем новое бронирование
+        bookings.push(booking);
+        
+        // Сохраняем в localStorage
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        
+        // Получаем данные пользователя из массива пользователей
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        
+        if (userIndex === -1) {
+          alert('Ошибка при бронировании. Пользователь не найден.');
+          return;
+        }
+        
+        // Проверяем, есть ли у пользователя массив бронирований
+        if (!users[userIndex].bookings) {
+          users[userIndex].bookings = [];
+        }
+        
+        // Добавляем бронирование
+        users[userIndex].bookings.push(booking.id);
+        
+        // Сохраняем изменения
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Обновляем данные текущего пользователя
+        currentUser.bookings = users[userIndex].bookings;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Показываем модальное окно успешного бронирования
+        const successModal = new bootstrap.Modal(document.getElementById('bookingSuccessModal'));
+        successModal.show();
+        
+        // Очищаем форму
+        document.getElementById('bookingForm').reset();
+        document.getElementById('bookingPrice').textContent = '0';
+        
+        // Перенаправляем на страницу профиля после закрытия модального окна
+        document.getElementById('bookingSuccessModal').addEventListener('hidden.bs.modal', function () {
+          window.location.href = 'profile.html#bookings';
+        }, { once: true });
+      }
+      
+      // Функция для добавления отзыва
+      function addReview(spaId) {
+        // Проверяем, авторизован ли пользователь
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+          // Показываем модальное окно для входа
+          const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+          loginModal.show();
+          return;
+        }
+        
+        // Получаем данные из формы
+        const rating = parseInt(document.getElementById('reviewRating').value);
+        const text = document.getElementById('reviewText').value;
+        
+        if (!rating || !text) {
+          alert('Пожалуйста, заполните все поля отзыва');
+          return;
+        }
+        
+        // Получаем данные СПА
+        const spas = JSON.parse(localStorage.getItem('spas')) || [];
+        const spaIndex = spas.findIndex(s => s.id === spaId);
+        
+        if (spaIndex === -1) {
+          alert('Ошибка: СПА не найден');
+          return;
+        }
+        
+        // Создаем объект отзыва
+        const review = {
+          id: Date.now().toString(),
+          userId: currentUser.id,
+          userName: currentUser.name,
+          rating: rating,
+          date: new Date().toISOString().split('T')[0],
+          text: text
+        };
+        
+        // Инициализируем массив отзывов, если его нет
+        if (!spas[spaIndex].reviews) {
+          spas[spaIndex].reviews = [];
+        }
+        
+        // Добавляем отзыв
+        spas[spaIndex].reviews.push(review);
+        
+        // Пересчитываем рейтинг
+        const totalRating = spas[spaIndex].reviews.reduce((sum, r) => sum + r.rating, 0);
+        spas[spaIndex].rating = (totalRating / spas[spaIndex].reviews.length).toFixed(1);
+        spas[spaIndex].reviewCount = spas[spaIndex].reviews.length;
+        
+        // Сохраняем в localStorage
+        localStorage.setItem('spas', JSON.stringify(spas));
+        
+        // Показываем уведомление
+        showNotification('Ваш отзыв успешно добавлен!', 'success');
+        
+        // Обновляем страницу для отображения нового отзыва
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+        
+        // Очищаем форму
+        document.getElementById('reviewForm').reset();
+      }
+      
+      // Функция для отображения уведомлений
+      function showNotification(message, type = 'info') {
+        // Создаем элемент уведомления
+        const toast = document.createElement('div');
+        toast.className = `toast align-items-center text-white bg-${type} border-0`;
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        
+        toast.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body">
+              ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        `;
+        
+        // Создаем контейнер для уведомлений, если его нет
+        let toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+          toastContainer = document.createElement('div');
+          toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+          document.body.appendChild(toastContainer);
+        }
+        
+        // Добавляем уведомление в контейнер
+        toastContainer.appendChild(toast);
+        
+        // Инициализируем и показываем уведомление
+        const bsToast = new bootstrap.Toast(toast, {
+          autohide: true,
+          delay: 3000
+        });
+        bsToast.show();
+        
+        // Удаляем уведомление после скрытия
+        toast.addEventListener('hidden.bs.toast', function() {
+          toast.remove();
+        });
+      }
+    </script>

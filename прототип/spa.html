@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>СПА услуги - BOOKNEST</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    .spa-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+    .spa-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .spa-card .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+    .spa-card .card-footer {
+      background-color: transparent;
+      border-top: none;
+    }
+  </style>
+</head>
+<body style="background-color: #f8f9fa;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">BOOKNEST</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item" id="homeMenuItem"><a class="nav-link" href="index.html">Главный</a></li>
+            <li class="nav-item"><a class="nav-link" href="hotels.html">Отели</a></li>
+            <li class="nav-item"><a class="nav-link" href="restaurants.html">Рестораны</a></li>
+            <li class="nav-item"><a class="nav-link active" href="spa.html">СПА услуги</a></li>
+            <li class="nav-item" id="loginMenuItem">
+              <a class="nav-link" href="login.html">Войти</a>
+            </li>
+            <li class="nav-item dropdown d-none" id="userMenuItem">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                <span id="userDisplayName">Имя пользователя</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="profile.html">Профиль</a></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Выйти</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h1 class="mb-4">СПА услуги</h1>
+    
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" id="searchInput" placeholder="Поиск СПА...">
+          <button class="btn btn-primary" type="button" id="searchBtn">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex justify-content-md-end">
+          <select class="form-select w-auto" id="sortSelect">
+            <option value="rating">По рейтингу</option>
+            <option value="price">По цене</option>
+            <option value="name">По названию</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row" id="spasContainer">
+      <!-- СПА карточки будут загружены динамически -->
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/spa.js"></script>
+  <script>
+    // Инициализация данных СПА, если их нет в localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('spas')) {
+        const spas = [
+          {
+            id: 'spa1',
+            name: 'Harmony Spa & Wellness',
+            type: 'wellness',
+            location: 'ул. Достык 12, Алматы',
+            description: 'Harmony Spa & Wellness - это оазис спокойствия и релаксации в центре города. Наш спа-центр предлагает широкий спектр услуг для восстановления вашего физического и эмоционального благополучия. Профессиональные мастера помогут вам расслабиться и восстановить силы после напряженного дня.',
+            rating: 4.8,
+            reviewCount: 124,
+            workingHours: '10:00 - 22:00',
+            phone: '+7 (727) 123-45-67',
+            website: 'harmonyspa.kz',
+            features: ['Массаж', 'Сауна', 'Уход за лицом', 'Уход за телом', 'Бассейн'],
+            services: [
+              { name: 'Классический массаж', duration: 60, price: 12000 },
+              { name: 'Тайский массаж', duration: 90, price: 18000 },
+              { name: 'Спа-программа "Гармония"', duration: 120, price: 25000 },
+              { name: 'Уход за лицом', duration: 60, price: 15000 },
+              { name: 'Стоун-терапия', duration: 90, price: 20000 }
+            ],
+            images: [
+              'images/spa/spa1-1.jpg',
+              'images/spa/spa1-2.jpg',
+              'images/spa/spa1-3.jpg',
+              'images/spa/spa1-4.jpg'
+            ],
+            reviews: [
+              {
+                id: 'rev1',
+                userId: 'user1',
+                userName: 'Алия',
+                rating: 5,
+                date: '2023-03-15',
+                text: 'Отличный спа-центр! Профессиональные мастера, приятная атмосфера. Особенно понравился тайский массаж.'
+              },
+              {
+                id: 'rev2',
+                userId: 'user2',
+                userName: 'Максим',
+                rating: 4,
+                date: '2023-02-20',
+                text: 'Хороший сервис, но немного дороговато. Тем не менее, качество услуг на высоте.'
+              }
+            ]
+          },
+          {
+            id: 'spa2',
+            name: 'Luxe Medical Spa',
+            type: 'medical',
+            location: 'пр. Абая 44, Алматы',
+            description: 'Luxe Medical Spa - это современный медицинский спа-центр, где красота встречается с наукой. Мы предлагаем инновационные процедуры для лица и тела, основанные на последних достижениях в области косметологии и эстетической медицины. Наши специалисты имеют медицинское образование и сертификаты международного уровня.',
+            rating: 4.6,
+            reviewCount: 98,
+            workingHours: '09:00 - 21:00',
+            phone: '+7 (727) 987-65-43',
+            website: 'luxemedspa.kz',
+            features: ['Уход за лицом', 'Уход за телом', 'Массаж', 'Аппаратная косметология'],
+            services: [
+              { name: 'Биоревитализация', duration: 60, price: 35000 },
+              { name: 'Лазерная эпиляция', duration: 30, price: 15000 },
+              { name: 'RF-лифтинг', duration: 45, price: 25000 },
+              { name: 'Мезотерапия', duration: 40, price: 30000 },
+              { name: 'Антицеллюлитный массаж', duration: 60, price: 18000 }
+            ],
+            images: [
+              'images/spa/spa2-1.jpg',
+              'images/spa/spa2-2.jpg',
+              'images/spa/spa2-3.jpg',
+              'images/spa/spa2-4.jpg'
+            ],
+            reviews: [
+              {
+                id: 'rev3',
+                userId: 'user3',
+                userName: 'Елена',
+                rating: 5,
+                date: '2023-04-10',
+                text: 'Прекрасный центр с профессиональными врачами-косметологами. Результат после процедур виден сразу!'
+              },
+              {
+                id: 'rev4',
+                userId: 'user4',
+                userName: 'Дмитрий',
+                rating: 4,
+                date: '2023-03-25',
+                text: 'Хорошее обслуживание, современное оборудование. Рекомендую RF-лифтинг.'
+              }
+            ]
+          },
+          {
+            id: 'spa3',
+            name: 'Zen Day Spa',
+            type: 'day',
+            location: 'ул. Жибек Жолы 50, Алматы',
+            description: 'Zen Day Spa - идеальное место для быстрого восстановления в течение дня. Мы предлагаем экспресс-процедуры и полноценные спа-программы, которые помогут вам расслабиться и зарядиться энергией даже в самый напряженный день. Удобное расположение в центре города делает наш спа-центр доступным для всех.',
+            rating: 4.5,
+            reviewCount: 76,
+            workingHours: '08:00 - 20:00',
+            phone: '+7 (727) 456-78-90',
+            website: 'zendayspa.kz',
+            features: ['Массаж', 'Уход за лицом', 'Маникюр и педикюр', 'Экспресс-процедуры'],
+            services: [
+              { name: 'Экспресс-массаж', duration: 30, price: 8000 },
+              { name: 'Экспресс-уход за лицом', duration: 30, price: 10000 },
+              { name: 'Спа-маникюр', duration: 60, price: 12000 },
+              { name: 'Спа-педикюр', duration: 60, price: 15000 },
+              { name: 'Программа "Обеденный перерыв"', duration: 60, price: 18000 }
+            ],
+            images: [
+              'images/spa/spa3-1.jpg',
+              'images/spa/spa3-2.jpg',
+              'images/spa/spa3-3.jpg',
+              'images/spa/spa3-4.jpg'
+            ],
+            reviews: [
+              {
+                id: 'rev5',
+                userId: 'user5',
+                userName: 'Анна',
+                rating: 5,
+                date: '2023-05-05',
+                text: 'Отличное место для быстрого отдыха в обеденный перерыв! Экспресс-массаж просто спас мою спину после долгого сидения за компьютером.'
+              },
+              {
+                id: 'rev6',
+                userId: 'user6',
+                userName: 'Сергей',
+                rating: 4,
+                date: '2023-04-20',
+                text: 'Удобное расположение, приятный интерьер. Хорошее соотношение цены и качества.'
+              }
+            ]
+          },
+          {
+            id: 'spa4',
+            name: 'Royal Resort Spa',
+            type: 'resort',
+            location: 'мкр. Самал-3, Алматы',
+            description: 'Royal Resort Spa - это премиальный спа-курорт, предлагающий комплексные программы для полного восстановления и релаксации. Наш спа-центр расположен в живописном месте с панорамными видами на горы. Мы предлагаем не только спа-процедуры, но и полноценные программы оздоровления, включающие питание, физические упражнения и медитацию.',
+            rating: 4.9,
+            reviewCount: 145,
+            workingHours: '09:00 - 23:00',
+            phone: '+7 (727) 789-01-23',
+            website: 'royalresortspa.kz',
+            features: ['Массаж', 'Сауна', 'Хаммам', 'Бассейн', 'Джакузи', 'Йога', 'Медитация'],
+            services: [
+              { name: 'VIP-массаж', duration: 90, price: 30000 },
+              { name: 'Программа "Королевский отдых"', duration: 180, price: 50000 },
+              { name: 'Хаммам-ритуал', duration: 120, price: 35000 },
+              { name: 'Йога-сессия', duration: 60, price: 10000 },
+              { name: 'Детокс-программа', duration: 240, price: 60000 }
+            ],
+            images: [
+              'images/spa/spa4-1.jpg',
+              'images/spa/spa4-2.jpg',
+              'images/spa/spa4-3.jpg',
+              'images/spa/spa4-4.jpg'
+            ],
+            reviews: [
+              {
+                id: 'rev7',
+                userId: 'user7',
+                userName: 'Карина',
+                rating: 5,
+                date: '2023-06-15',
+                text: 'Потрясающий спа-курорт! Провела здесь выходные и чувствую себя полностью обновленной. Особенно понравилась программа "Королевский отдых".'
+              },
+              {
+                id: 'rev8',
+                userId: 'user8',
+                userName: 'Артур',
+                rating: 5,
+                date: '2023-05-30',
+                text: 'Лучший спа в городе! Профессиональный персонал, прекрасные виды, отличный сервис. Стоит своих денег.'
+              }
+            ]
+          }
+        ];
+        
+        localStorage.setItem('spas', JSON.stringify(spas));
+      }
+      
+      // Обработчик для поиска
+      document.getElementById('searchBtn').addEventListener('click', function() {
+        const searchText = document.getElementById('searchInput').value.toLowerCase();
+        const spas = JSON.parse(localStorage.getItem('spas')) || [];
+        
+        const filteredSpas = spas.filter(spa => 
+          spa.name.toLowerCase().includes(searchText) || 
+          spa.description.toLowerCase().includes(searchText) ||
+          spa.location.toLowerCase().includes(searchText)
+        );
+        
+        // Очищаем контейнер
+        const spasContainer = document.getElementById('spasContainer');
+        spasContainer.innerHTML = '';
+        
+        // Если ничего не найдено
+        if (filteredSpas.length === 0) {
+          spasContainer.innerHTML = '<div class="col-12"><div class="alert alert-info">По вашему запросу ничего не найдено.</div></div>';
+          return;
+        }
+        
+        // Отображаем отфильтрованные СПА
+        filteredSpas.forEach(spa => {
+          const card = document.createElement('div');
+          card.className = 'col-md-4 mb-4';
+          
+          // Формируем рейтинг в виде звезд
+          let starsHtml = '';
+          for (let i = 0; i < 5; i++) {
+            if (i < Math.floor(spa.rating)) {
+              starsHtml += '<i class="bi bi-star-fill text-warning"></i>';
+            } else if (i < spa.rating) {
+              starsHtml += '<i class="bi bi-star-half text-warning"></i>';
+            } else {
+              starsHtml += '<i class="bi bi-star text-warning"></i>';
+            }
+          }
+          
+          // Создаем HTML для карточки
+          card.innerHTML = `
+            <div class="card shadow-sm spa-card">
+              <img src="${spa.images[0]}" class="card-img-top" alt="${spa.name}">
+              <div class="card-body">
+                <h5 class="card-title">${spa.name}</h5>
+                <p class="card-text text-muted">
+                  <i class="bi bi-geo-alt"></i> ${spa.location}
+                </p>
+                <div class="mb-2">
+                  ${starsHtml} <span class="text-muted">(${spa.reviewCount || 0})</span>
+                </div>
+                <p class="card-text">${spa.description.substring(0, 100)}...</p>
+              </div>
+              <div class="card-footer d-grid">
+                <a href="spa-detail.html?id=${spa.id}" class="btn btn-primary">
+                  <i class="bi bi-info-circle me-2"></i>Подробнее
+                </a>
+              </div>
+            </div>
+          `;
+          
+          spasContainer.appendChild(card);
+        });
+      });
+      
+      // Обработчик для сортировки
+      document.getElementById('sortSelect').addEventListener('change', function() {
+        const sortBy = this.value;
+        const spas = JSON.parse(localStorage.getItem('spas')) || [];
+        
+        // Сортируем СПА
+        if (sortBy === 'rating') {
+          spas.sort((a, b) => b.rating - a.rating);
+        } else if (sortBy === 'price') {
+          spas.sort((a, b) => {
+            const minPriceA = Math.min(...a.services.map(s => s.price));
+            const minPriceB = Math.min(...b.services.map(s => s.price));
+            return minPriceA - minPriceB;
+          });
+        } else if (sortBy === 'name') {
+          spas.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        
+        // Обновляем отображение
+        const spasContainer = document.getElementById('spasContainer');
+        spasContainer.innerHTML = '';
+        
+        spas.forEach(spa => {
+          const card = document.createElement('div');
+          card.className = 'col-md-4 mb-4';
+          
+          // Формируем рейтинг в виде звезд
+          let starsHtml = '';
+          for (let i = 0; i < 5; i++) {
+            if (i < Math.floor(spa.rating)) {
+              starsHtml += '<i class="bi bi-star-fill text-warning"></i>';
+            } else if (i < spa.rating) {
+              starsHtml += '<i class="bi bi-star-half text-warning"></i>';
+            } else {
+              starsHtml += '<i class="bi bi-star text-warning"></i>';
+            }
+          }
+          
+          // Создаем HTML для карточки
+          card.innerHTML = `
+            <div class="card shadow-sm spa-card">
+              <img src="${spa.images[0]}" class="card-img-top" alt="${spa.name}">
+              <div class="card-body">
+                <h5 class="card-title">${spa.name}</h5>
+                <p class="card-text text-muted">
+                  <i class="bi bi-geo-alt"></i> ${spa.location}
+                </p>
+                <div class="mb-2">
+                  ${starsHtml} <span class="text-muted">(${spa.reviewCount || 0})</span>
+                </div>
+                <p class="card-text">${spa.description.substring(0, 100)}...</p>
+              </div>
+              <div class="card-footer d-grid">
+                <a href="spa-detail.html?id=${spa.id}" class="btn btn-primary">
+                  <i class="bi bi-info-circle me-2"></i>Подробнее
+                </a>
+              </div>
+            </div>
+          `;
+          
+          spasContainer.appendChild(card);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
